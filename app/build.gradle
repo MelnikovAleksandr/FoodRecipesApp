@@ -46,4 +46,12 @@ dependencies {
     def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //intuit
+    def intuit_version = "1.0.6"
+    implementation "com.intuit.sdp:sdp-android:$intuit_version"
+    implementation "com.intuit.ssp:ssp-android:$intuit_version"
+
+    //gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
 }

@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">FoodRecipesApp</string>
+    <string name="home">Home</string>
+    <string name="what_would_you_like_to_eat">What would you like to eat</string>
+    <string name="over_popular_items">Over popular items</string>
+    <string name="categories">Categories</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 
