@@ -6,17 +6,17 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="ru.asmelnikov.android.foodrecipesapp.FavoritesFragment"
+        android:name="ru.asmelnikov.android.foodrecipesapp.presentation.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/categoriesFragment"
-        android:name="ru.asmelnikov.android.foodrecipesapp.CategoriesFragment"
+        android:name="ru.asmelnikov.android.foodrecipesapp.presentation.CategoriesFragment"
         android:label="fragment_categories"
         tools:layout="@layout/fragment_categories" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ru.asmelnikov.android.foodrecipesapp.HomeFragment"
+        android:name="ru.asmelnikov.android.foodrecipesapp.presentation.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>
