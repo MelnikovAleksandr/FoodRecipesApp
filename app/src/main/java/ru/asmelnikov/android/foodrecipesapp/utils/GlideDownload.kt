@@ -7,6 +7,6 @@ import ru.asmelnikov.android.foodrecipesapp.R
 fun ImageView.loadImage(url: String) {
     Glide.with(this)
         .load(url)
-        //.error(R.drawable.ic_image)
+        //.error(R.drawable.ic_error_image)
         .into(this)
 }
