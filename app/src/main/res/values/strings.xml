@@ -5,6 +5,11 @@
     <string name="over_popular_items">Over popular items</string>
     <string name="categories">Categories</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="area">Area: %1$s</string>
+    <string name="instructions"> - Instructions: </string>
+    <string name="categories2">Categories: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
 
 
 </resources>
