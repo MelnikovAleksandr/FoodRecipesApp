@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import ru.asmelnikov.android.foodrecipesapp.pojo.Meal
-import ru.asmelnikov.android.foodrecipesapp.pojo.MealList
+import ru.asmelnikov.android.foodrecipesapp.models.Meal
+import ru.asmelnikov.android.foodrecipesapp.models.MealList
 import ru.asmelnikov.android.foodrecipesapp.retrofit.RetrofitInstance
 
 
