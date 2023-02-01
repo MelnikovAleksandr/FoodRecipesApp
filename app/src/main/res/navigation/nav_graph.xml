@@ -29,7 +29,7 @@
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
         <argument
-            android:name="meal"
-            app:argType="ru.asmelnikov.android.foodrecipesapp.models.Meal" />
+            android:name="meal_id"
+            app:argType="string" />
     </fragment>
 </navigation>
