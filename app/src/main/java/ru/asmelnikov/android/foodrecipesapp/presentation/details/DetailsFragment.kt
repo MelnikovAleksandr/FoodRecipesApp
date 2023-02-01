@@ -33,13 +33,14 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        showLoading()
         val mealArgs = bundleArgs.mealId
         viewModel.getMealById(mealArgs)
         viewModel.observeMealDetail().observe(
             viewLifecycleOwner
         ) { meals ->
             setTextsInViews(meals!![0])
+            stopLoading()
         }
 
     }
@@ -62,6 +63,20 @@ class DetailsFragment : Fragment() {
             startActivity(intent)
         }
     }
+
+    private fun showLoading() {
+        binding?.progressBar?.visibility = View.VISIBLE
+        binding?.btnFavoritesAdd?.visibility = View.GONE
+        binding?.imgYoutube?.visibility = View.INVISIBLE
+    }
+
+
+    private fun stopLoading() {
+        binding?.progressBar?.visibility = View.INVISIBLE
+        binding?.btnFavoritesAdd?.visibility = View.VISIBLE
+        binding?.imgYoutube?.visibility = View.VISIBLE
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
