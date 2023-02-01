@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showLoadingCase()
         homeViewModel.getRandomMeal()
         observerRandomMeal()
         homeViewModel.getPopularItems()
@@ -62,17 +63,21 @@ class HomeFragment : Fragment() {
             .observe(
                 viewLifecycleOwner
             ) { mealList ->
-                popularAdapter.differ.submitList(mealList as ArrayList<CategoryMeals>)
+                popularAdapter.differ
+                    .submitList(mealList as ArrayList<CategoryMeals>)
+
             }
     }
 
     private fun observerRandomMeal() {
-        homeViewModel.observeRandomMealLiveData().observe(
-            viewLifecycleOwner
-        ) { meal ->
-            binding?.imgRandomMeal?.loadImage(meal!!.strMealThumb)
-            this.randomMeal = meal
-        }
+        homeViewModel.observeRandomMealLiveData()
+            .observe(
+                viewLifecycleOwner
+            ) { meal ->
+                binding?.imgRandomMeal?.loadImage(meal!!.strMealThumb)
+                this.randomMeal = meal
+                cancelLoadingCase()
+            }
     }
 
     private var onClick: ((String) -> Unit)? = null
@@ -84,6 +89,28 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showLoadingCase() {
+        binding?.apply {
+            linearHead.visibility = View.INVISIBLE
+            tvLikeToEat.visibility = View.INVISIBLE
+            randomMealCard.visibility = View.INVISIBLE
+            recyclerPopularMeal.visibility = View.INVISIBLE
+            tvCategories.visibility = View.INVISIBLE
+            loadingGif.visibility = View.VISIBLE
+        }
+    }
+
+    private fun cancelLoadingCase() {
+        binding?.apply {
+            linearHead.visibility = View.VISIBLE
+            tvLikeToEat.visibility = View.VISIBLE
+            randomMealCard.visibility = View.VISIBLE
+            recyclerPopularMeal.visibility = View.VISIBLE
+            tvCategories.visibility = View.VISIBLE
+            loadingGif.visibility = View.INVISIBLE
+        }
     }
 
     private fun initAdapter() {
