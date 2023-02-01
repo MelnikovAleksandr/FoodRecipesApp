@@ -8,8 +8,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import ru.asmelnikov.android.foodrecipesapp.R
+import ru.asmelnikov.android.foodrecipesapp.adapters.PopularMealsAdapter
 import ru.asmelnikov.android.foodrecipesapp.databinding.FragmentHomeBinding
+import ru.asmelnikov.android.foodrecipesapp.models.CategoryMeals
 import ru.asmelnikov.android.foodrecipesapp.models.Meal
 import ru.asmelnikov.android.foodrecipesapp.utils.loadImage
 
@@ -19,6 +22,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding
     private val homeViewModel by viewModels<HomeViewModel>()
     private lateinit var randomMeal: Meal
+    private lateinit var popularAdapter: PopularMealsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +36,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel.getRandomMeal()
         observerRandomMeal()
+        homeViewModel.getPopularItems()
+        initAdapter()
+        observePopularMeal()
         binding?.imgRandomMeal?.setOnClickListener {
             onClick?.let {
                 it(randomMeal)
@@ -43,10 +50,14 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private var onClick: ((Meal) -> Unit)? = null
 
-    private fun onMovieClick(listener: (Meal) -> Unit) {
-        onClick = listener
+    private fun observePopularMeal() {
+        homeViewModel.observePopularLiveData()
+            .observe(
+                viewLifecycleOwner
+            ) { mealList ->
+                popularAdapter.differ.submitList(mealList as ArrayList<CategoryMeals>)
+            }
     }
 
     private fun observerRandomMeal() {
@@ -58,8 +69,22 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private var onClick: ((Meal) -> Unit)? = null
+
+    private fun onMovieClick(listener: (Meal) -> Unit) {
+        onClick = listener
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initAdapter() {
+        popularAdapter = PopularMealsAdapter()
+        binding?.recyclerPopularMeal?.apply {
+            adapter = popularAdapter
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        }
     }
 }
