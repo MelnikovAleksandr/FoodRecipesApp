@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.asmelnikov.android.foodrecipesapp.databinding.PopularItemsBinding
-import ru.asmelnikov.android.foodrecipesapp.models.CategoryMeals
+import ru.asmelnikov.android.foodrecipesapp.models.MealsByCategory
 import ru.asmelnikov.android.foodrecipesapp.utils.loadImage
 
 
@@ -16,12 +16,12 @@ class PopularMealsAdapter :
     inner class PopularMealsViewHolder(val viewBinding: PopularItemsBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
-    private val callBack = object : DiffUtil.ItemCallback<CategoryMeals>() {
-        override fun areItemsTheSame(oldItem: CategoryMeals, newItem: CategoryMeals): Boolean {
+    private val callBack = object : DiffUtil.ItemCallback<MealsByCategory>() {
+        override fun areItemsTheSame(oldItem: MealsByCategory, newItem: MealsByCategory): Boolean {
             return oldItem.idMeal == newItem.idMeal
         }
 
-        override fun areContentsTheSame(oldItem: CategoryMeals, newItem: CategoryMeals): Boolean {
+        override fun areContentsTheSame(oldItem: MealsByCategory, newItem: MealsByCategory): Boolean {
             return oldItem == newItem
         }
     }

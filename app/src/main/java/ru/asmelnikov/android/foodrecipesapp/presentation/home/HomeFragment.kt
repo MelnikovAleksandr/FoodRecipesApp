@@ -1,4 +1,4 @@
-package ru.asmelnikov.android.foodrecipesapp.presentation.homefragment
+package ru.asmelnikov.android.foodrecipesapp.presentation.home
 
 import android.os.Bundle
 import android.util.Log
@@ -9,13 +9,18 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.asmelnikov.android.foodrecipesapp.R
+import ru.asmelnikov.android.foodrecipesapp.adapters.CategoriesAdapter
 import ru.asmelnikov.android.foodrecipesapp.adapters.PopularMealsAdapter
 import ru.asmelnikov.android.foodrecipesapp.databinding.FragmentHomeBinding
-import ru.asmelnikov.android.foodrecipesapp.models.CategoryMeals
 import ru.asmelnikov.android.foodrecipesapp.models.Meal
+import ru.asmelnikov.android.foodrecipesapp.models.MealsByCategory
 import ru.asmelnikov.android.foodrecipesapp.utils.loadImage
+import kotlin.math.abs
+import kotlin.math.pow
 
 class HomeFragment : Fragment() {
 
@@ -24,6 +29,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel by viewModels<HomeViewModel>()
     private lateinit var randomMeal: Meal
     private lateinit var popularAdapter: PopularMealsAdapter
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +47,9 @@ class HomeFragment : Fragment() {
         homeViewModel.getPopularItems()
         initAdapter()
         observePopularMeal()
+        homeViewModel.getCategories()
+        observeCategoriesLiveData()
+        binding?.recyclerPopularMeal?.addOnScrollListener(CarouselScroller())
         binding?.imgRandomMeal?.setOnClickListener {
             onClick?.let {
                 it(randomMeal.idMeal.toString())
@@ -57,6 +66,14 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun observeCategoriesLiveData() {
+        homeViewModel.observeCategoriesLiveData()
+            .observe(viewLifecycleOwner) { categories ->
+                categoriesAdapter.differ
+                    .submitList(categories)
+            }
+    }
+
 
     private fun observePopularMeal() {
         homeViewModel.observePopularLiveData()
@@ -64,7 +81,7 @@ class HomeFragment : Fragment() {
                 viewLifecycleOwner
             ) { mealList ->
                 popularAdapter.differ
-                    .submitList(mealList as ArrayList<CategoryMeals>)
+                    .submitList(mealList as ArrayList<MealsByCategory>)
 
             }
     }
@@ -113,11 +130,30 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private class CarouselScroller : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val centerX = (recyclerView.left + recyclerView.right)
+            for (i in 0 until recyclerView.childCount) {
+                val child = recyclerView.getChildAt(i)
+                val childCenterX = (child.left + child.right)
+                val childOffset = abs(centerX - childCenterX) / centerX.toFloat()
+                val factor = 0.6.pow(childOffset.toDouble()).toFloat()
+                child.scaleX = factor
+                child.scaleY = factor
+            }
+        }
+    }
+
     private fun initAdapter() {
         popularAdapter = PopularMealsAdapter()
         binding?.recyclerPopularMeal?.apply {
             adapter = popularAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        }
+        categoriesAdapter = CategoriesAdapter()
+        binding?.recyclerCategories?.apply {
+            adapter = categoriesAdapter
+            layoutManager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
         }
     }
 }

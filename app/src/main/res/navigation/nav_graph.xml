@@ -16,7 +16,7 @@
         tools:layout="@layout/fragment_categories" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ru.asmelnikov.android.foodrecipesapp.presentation.homefragment.HomeFragment"
+        android:name="ru.asmelnikov.android.foodrecipesapp.presentation.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
