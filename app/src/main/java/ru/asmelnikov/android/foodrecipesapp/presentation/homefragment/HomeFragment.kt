@@ -1,6 +1,7 @@
 package ru.asmelnikov.android.foodrecipesapp.presentation.homefragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,11 +42,16 @@ class HomeFragment : Fragment() {
         observePopularMeal()
         binding?.imgRandomMeal?.setOnClickListener {
             onClick?.let {
-                it(randomMeal)
+                it(randomMeal.idMeal.toString())
             }
         }
-        onMovieClick {
-            val bundle = bundleOf("meal" to it)
+        popularAdapter.setOnItemClickListener {
+            Log.d("HOME_ARGS", it)
+            val bundle = bundleOf("meal_id" to it)
+            findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
+        }
+        onRandomMealClick {
+            val bundle = bundleOf("meal_id" to it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
     }
@@ -69,9 +75,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private var onClick: ((Meal) -> Unit)? = null
+    private var onClick: ((String) -> Unit)? = null
 
-    private fun onMovieClick(listener: (Meal) -> Unit) {
+    private fun onRandomMealClick(listener: (String) -> Unit) {
         onClick = listener
     }
 
