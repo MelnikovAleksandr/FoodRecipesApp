@@ -10,6 +10,7 @@
     <string name="instructions"> - Instructions: </string>
     <string name="categories2">Categories: %1$s</string>
     <string name="category_name">Category name</string>
+    <string name="categories_meals">%1$s: %2$s</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 

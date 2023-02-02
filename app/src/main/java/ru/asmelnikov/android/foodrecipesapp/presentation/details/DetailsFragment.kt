@@ -65,6 +65,9 @@ class DetailsFragment : Fragment() {
     }
 
     private fun showLoading() {
+        binding?.collapsingToolBar?.visibility = View.INVISIBLE
+        binding?.tvCategories?.visibility = View.INVISIBLE
+        binding?.tvArea?.visibility = View.INVISIBLE
         binding?.progressBar?.visibility = View.VISIBLE
         binding?.btnFavoritesAdd?.visibility = View.GONE
         binding?.imgYoutube?.visibility = View.INVISIBLE
@@ -72,6 +75,9 @@ class DetailsFragment : Fragment() {
 
 
     private fun stopLoading() {
+        binding?.collapsingToolBar?.visibility = View.VISIBLE
+        binding?.tvCategories?.visibility = View.VISIBLE
+        binding?.tvArea?.visibility = View.VISIBLE
         binding?.progressBar?.visibility = View.INVISIBLE
         binding?.btnFavoritesAdd?.visibility = View.VISIBLE
         binding?.imgYoutube?.visibility = View.VISIBLE
