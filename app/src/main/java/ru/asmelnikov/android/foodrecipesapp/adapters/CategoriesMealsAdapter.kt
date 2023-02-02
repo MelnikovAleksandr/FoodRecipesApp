@@ -5,22 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ru.asmelnikov.android.foodrecipesapp.databinding.CategoryItemBinding
-import ru.asmelnikov.android.foodrecipesapp.models.Category
+import ru.asmelnikov.android.foodrecipesapp.databinding.MealItemBinding
+import ru.asmelnikov.android.foodrecipesapp.models.MealsByCategory
 import ru.asmelnikov.android.foodrecipesapp.utils.loadImage
 
-class CategoriesAdapter :
-    RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
+class CategoriesMealsAdapter :
+    RecyclerView.Adapter<CategoriesMealsAdapter.CategoriesViewHolder>() {
 
-    inner class CategoriesViewHolder(val viewBinding: CategoryItemBinding) :
+    inner class CategoriesViewHolder(val viewBinding: MealItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
-    private val callBack = object : DiffUtil.ItemCallback<Category>() {
-        override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
-            return oldItem.idCategory == newItem.idCategory
+    private val callBack = object : DiffUtil.ItemCallback<MealsByCategory>() {
+        override fun areItemsTheSame(oldItem: MealsByCategory, newItem: MealsByCategory): Boolean {
+            return oldItem.idMeal == newItem.idMeal
         }
 
-        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+        override fun areContentsTheSame(
+            oldItem: MealsByCategory,
+            newItem: MealsByCategory
+        ): Boolean {
             return oldItem == newItem
         }
     }
@@ -28,7 +31,7 @@ class CategoriesAdapter :
     val differ = AsyncListDiffer(this, callBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
-        val binding = CategoryItemBinding.inflate(
+        val binding = MealItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
         )
@@ -37,11 +40,11 @@ class CategoriesAdapter :
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
         val meal = differ.currentList[position]
-        holder.viewBinding.imgCategory.loadImage(meal.strCategoryThumb)
-        holder.viewBinding.tvCategoryName.text = meal.strCategory
+        holder.viewBinding.imgCategoryMeals.loadImage(meal.strMealThumb)
+        holder.viewBinding.tvMealName.text = meal.strMeal
         holder.viewBinding.root.setOnClickListener {
             onItemClickListener?.let {
-                it(meal.strCategory)
+                it(meal.idMeal)
             }
         }
     }

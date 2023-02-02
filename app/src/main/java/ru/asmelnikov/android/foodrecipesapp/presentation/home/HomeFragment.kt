@@ -1,7 +1,6 @@
 package ru.asmelnikov.android.foodrecipesapp.presentation.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,15 +54,19 @@ class HomeFragment : Fragment() {
                 it(randomMeal.idMeal.toString())
             }
         }
-        popularAdapter.setOnItemClickListener {
-            Log.d("HOME_ARGS", it)
-            val bundle = bundleOf("meal_id" to it)
-            findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
-        }
         onRandomMealClick {
             val bundle = bundleOf("meal_id" to it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
+        popularAdapter.setOnItemClickListener {
+            val bundle = bundleOf("meal_id" to it)
+            findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
+        }
+        categoriesAdapter.setOnItemClickListener {
+            val bundle = bundleOf("category_name" to it)
+            findNavController().navigate(R.id.action_homeFragment_to_categoryMealsFragment, bundle)
+        }
+
     }
 
     private fun observeCategoriesLiveData() {
@@ -71,6 +74,7 @@ class HomeFragment : Fragment() {
             .observe(viewLifecycleOwner) { categories ->
                 categoriesAdapter.differ
                     .submitList(categories)
+                cancelLoadingCase()
             }
     }
 
@@ -82,7 +86,6 @@ class HomeFragment : Fragment() {
             ) { mealList ->
                 popularAdapter.differ
                     .submitList(mealList as ArrayList<MealsByCategory>)
-
             }
     }
 
@@ -93,7 +96,6 @@ class HomeFragment : Fragment() {
             ) { meal ->
                 binding?.imgRandomMeal?.loadImage(meal!!.strMealThumb)
                 this.randomMeal = meal
-                cancelLoadingCase()
             }
     }
 
@@ -110,22 +112,28 @@ class HomeFragment : Fragment() {
 
     private fun showLoadingCase() {
         binding?.apply {
+            imgRandomMeal.visibility = View.INVISIBLE
             linearHead.visibility = View.INVISIBLE
             tvLikeToEat.visibility = View.INVISIBLE
             randomMealCard.visibility = View.INVISIBLE
+            tvPopularMeal.visibility = View.INVISIBLE
             recyclerPopularMeal.visibility = View.INVISIBLE
             tvCategories.visibility = View.INVISIBLE
+            recyclerCategories.visibility = View.INVISIBLE
             loadingGif.visibility = View.VISIBLE
         }
     }
 
     private fun cancelLoadingCase() {
         binding?.apply {
+            imgRandomMeal.visibility = View.VISIBLE
             linearHead.visibility = View.VISIBLE
             tvLikeToEat.visibility = View.VISIBLE
             randomMealCard.visibility = View.VISIBLE
+            tvPopularMeal.visibility = View.VISIBLE
             recyclerPopularMeal.visibility = View.VISIBLE
             tvCategories.visibility = View.VISIBLE
+            recyclerCategories.visibility = View.VISIBLE
             loadingGif.visibility = View.INVISIBLE
         }
     }

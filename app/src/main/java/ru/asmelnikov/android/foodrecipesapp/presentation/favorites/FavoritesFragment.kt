@@ -1,4 +1,4 @@
-package ru.asmelnikov.android.foodrecipesapp.presentation
+package ru.asmelnikov.android.foodrecipesapp.presentation.favorites
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import ru.asmelnikov.android.foodrecipesapp.R
 
-class CategoriesFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_categories, container, false)
+        return inflater.inflate(R.layout.fragment_favorites, container, false)
     }
 }

@@ -4,8 +4,8 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.asmelnikov.android.foodrecipesapp.models.CategoryList
-import ru.asmelnikov.android.foodrecipesapp.models.MealsByCategoryList
 import ru.asmelnikov.android.foodrecipesapp.models.MealList
+import ru.asmelnikov.android.foodrecipesapp.models.MealsByCategoryList
 
 interface MealApi {
 
