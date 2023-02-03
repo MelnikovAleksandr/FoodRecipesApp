@@ -1,11 +1,14 @@
 package ru.asmelnikov.android.foodrecipesapp.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
-
+@Entity(tableName = "mealInformation")
 data class Meal(
     val dateModified: Any?,
-    val idMeal: String?,
+    @PrimaryKey
+    val idMeal: String,
     val strArea: String?,
     val strCategory: String?,
     val strCreativeCommonsConfirmed: Any?,

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    apply plugin: "kotlin-kapt"
 
     //navigation
     def nav_version = "2.5.3"
@@ -75,5 +77,12 @@ dependencies {
 
     // Moshi
     implementation 'com.squareup.moshi:moshi-kotlin:1.13.0'
+
+    // Room
+    def roomVersion = "2.5.0"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 
 }

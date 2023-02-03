@@ -17,6 +17,7 @@ import ru.asmelnikov.android.foodrecipesapp.adapters.PopularMealsAdapter
 import ru.asmelnikov.android.foodrecipesapp.databinding.FragmentHomeBinding
 import ru.asmelnikov.android.foodrecipesapp.models.Meal
 import ru.asmelnikov.android.foodrecipesapp.models.MealsByCategory
+import ru.asmelnikov.android.foodrecipesapp.utils.CarouselScroller
 import ru.asmelnikov.android.foodrecipesapp.utils.loadImage
 import kotlin.math.abs
 import kotlin.math.pow
@@ -135,20 +136,6 @@ class HomeFragment : Fragment() {
             tvCategories.visibility = View.VISIBLE
             recyclerCategories.visibility = View.VISIBLE
             loadingGif.visibility = View.INVISIBLE
-        }
-    }
-
-    private class CarouselScroller : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val centerX = (recyclerView.left + recyclerView.right)
-            for (i in 0 until recyclerView.childCount) {
-                val child = recyclerView.getChildAt(i)
-                val childCenterX = (child.left + child.right)
-                val childOffset = abs(centerX - childCenterX) / centerX.toFloat()
-                val factor = 0.6.pow(childOffset.toDouble()).toFloat()
-                child.scaleX = factor
-                child.scaleY = factor
-            }
         }
     }
 
