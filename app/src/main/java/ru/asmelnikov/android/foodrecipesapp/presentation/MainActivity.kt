@@ -3,16 +3,25 @@ package ru.asmelnikov.android.foodrecipesapp.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.asmelnikov.android.foodrecipesapp.R
 import ru.asmelnikov.android.foodrecipesapp.databinding.ActivityMainBinding
+import ru.asmelnikov.android.foodrecipesapp.db.MealDatabase
+import ru.asmelnikov.android.foodrecipesapp.presentation.home.HomeViewModel
+import ru.asmelnikov.android.foodrecipesapp.presentation.home.HomeViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding
+    val viewModel: HomeViewModel by lazy {
+        val mealDatabase = MealDatabase.getInstance(this)
+        val homeViewModelProviderFactory = HomeViewModelFactory(mealDatabase)
+        ViewModelProvider(this, homeViewModelProviderFactory)[HomeViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

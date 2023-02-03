@@ -6,27 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ru.asmelnikov.android.foodrecipesapp.R
 import ru.asmelnikov.android.foodrecipesapp.adapters.CategoriesAdapter
 import ru.asmelnikov.android.foodrecipesapp.adapters.PopularMealsAdapter
 import ru.asmelnikov.android.foodrecipesapp.databinding.FragmentHomeBinding
 import ru.asmelnikov.android.foodrecipesapp.models.Meal
 import ru.asmelnikov.android.foodrecipesapp.models.MealsByCategory
+import ru.asmelnikov.android.foodrecipesapp.presentation.MainActivity
 import ru.asmelnikov.android.foodrecipesapp.utils.CarouselScroller
 import ru.asmelnikov.android.foodrecipesapp.utils.loadImage
-import kotlin.math.abs
-import kotlin.math.pow
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private lateinit var viewModel: HomeViewModel
     private lateinit var randomMeal: Meal
     private lateinit var popularAdapter: PopularMealsAdapter
     private lateinit var categoriesAdapter: CategoriesAdapter
@@ -41,13 +38,16 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = (activity as MainActivity).viewModel
+
         showLoadingCase()
-        homeViewModel.getRandomMeal()
+        viewModel.getRandomMeal()
         observerRandomMeal()
-        homeViewModel.getPopularItems()
+        viewModel.getPopularItems()
         initAdapter()
         observePopularMeal()
-        homeViewModel.getCategories()
+        viewModel.getCategories()
         observeCategoriesLiveData()
         binding?.recyclerPopularMeal?.addOnScrollListener(CarouselScroller())
         binding?.imgRandomMeal?.setOnClickListener {
@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeCategoriesLiveData() {
-        homeViewModel.observeCategoriesLiveData()
+        viewModel.observeCategoriesLiveData()
             .observe(viewLifecycleOwner) { categories ->
                 categoriesAdapter.differ
                     .submitList(categories)
@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
 
 
     private fun observePopularMeal() {
-        homeViewModel.observePopularLiveData()
+        viewModel.observePopularLiveData()
             .observe(
                 viewLifecycleOwner
             ) { mealList ->
@@ -91,7 +91,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observerRandomMeal() {
-        homeViewModel.observeRandomMealLiveData()
+        viewModel.observeRandomMealLiveData()
             .observe(
                 viewLifecycleOwner
             ) { meal ->

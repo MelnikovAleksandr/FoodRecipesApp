@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import ru.asmelnikov.android.foodrecipesapp.R
 import ru.asmelnikov.android.foodrecipesapp.databinding.FragmentDetailsBinding
+import ru.asmelnikov.android.foodrecipesapp.db.MealDatabase
 import ru.asmelnikov.android.foodrecipesapp.models.Meal
 import ru.asmelnikov.android.foodrecipesapp.utils.loadImage
 
@@ -19,9 +21,8 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding
     private val bundleArgs: DetailsFragmentArgs by navArgs()
-    private val viewModel: DetailsViewModel by viewModels()
     private lateinit var dtMeal: Meal
-
+    private lateinit var viewModel: DetailsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +34,11 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val mealDatabase = MealDatabase.getInstance(requireContext())
+        val viewModelFactory = DetailsViewModelFactory(mealDatabase)
+        viewModel = ViewModelProvider(this, viewModelFactory)[DetailsViewModel::class.java]
+
         showLoading()
         val mealArgs = bundleArgs.mealId
         viewModel.getMealById(mealArgs)
@@ -54,7 +60,14 @@ class DetailsFragment : Fragment() {
         meal.strMealThumb.let {
             binding?.imgMealDetails?.loadImage(meal.strMealThumb)
         }
+        binding?.btnFavoritesAdd?.setOnClickListener {
+            meal.let {
+                viewModel.insertMeal(it)
+                Toast.makeText(requireContext(), "Meal saved!", Toast.LENGTH_LONG).show()
+            }
+        }
         onYouTubeImageClick(meal.strYoutube!!)
+
     }
 
     private fun onYouTubeImageClick(url: String) {
