@@ -7,15 +7,19 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.asmelnikov.android.foodrecipesapp.db.MealDatabase
 import ru.asmelnikov.android.foodrecipesapp.models.*
 import ru.asmelnikov.android.foodrecipesapp.retrofit.RetrofitInstance
 
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val mealDatabase: MealDatabase
+) : ViewModel() {
 
     private var randomMealLiveData = MutableLiveData<Meal>()
     private var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>()
     private var categoriesLiveData = MutableLiveData<List<Category>>()
+    private var favoriteLiveData = mealDatabase.mealDao().getAllMeals()
 
     fun getPopularItems() {
         RetrofitInstance.api.getPopularItems("Seafood")
@@ -79,5 +83,7 @@ class HomeViewModel : ViewModel() {
     fun observeCategoriesLiveData(): LiveData<List<Category>> {
         return categoriesLiveData
     }
-
+    fun observeFavoritesLiveData(): LiveData<List<Meal>> {
+        return favoriteLiveData
+    }
 }
