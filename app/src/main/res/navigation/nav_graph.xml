@@ -55,4 +55,10 @@
             android:id="@+id/action_categoryMealsFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/mealBottomFragment"
+        android:name="ru.asmelnikov.android.foodrecipesapp.presentation.meal_bottom.MealBottomFragment"
+        android:label="fragment_meal_bottom"
+        tools:layout="@layout/fragment_meal_bottom" >
+    </dialog>
 </navigation>

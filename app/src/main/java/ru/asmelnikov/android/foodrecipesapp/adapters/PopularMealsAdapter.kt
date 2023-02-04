@@ -21,7 +21,10 @@ class PopularMealsAdapter :
             return oldItem.idMeal == newItem.idMeal
         }
 
-        override fun areContentsTheSame(oldItem: MealsByCategory, newItem: MealsByCategory): Boolean {
+        override fun areContentsTheSame(
+            oldItem: MealsByCategory,
+            newItem: MealsByCategory
+        ): Boolean {
             return oldItem == newItem
         }
     }
@@ -44,6 +47,10 @@ class PopularMealsAdapter :
                 it(meal.idMeal)
             }
         }
+        holder.viewBinding.root.setOnLongClickListener {
+            onLongItemClick?.invoke(meal)
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -52,8 +59,14 @@ class PopularMealsAdapter :
 
     private var onItemClickListener: ((String) -> Unit)? = null
 
+    private var onLongItemClick: ((MealsByCategory) -> Unit)? = null
+
     fun setOnItemClickListener(listener: (String) -> Unit) {
         onItemClickListener = listener
+    }
+
+    fun setOnLongItemClickListener(listener: (MealsByCategory) -> Unit) {
+        onLongItemClick = listener
     }
 
 }
