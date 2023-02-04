@@ -125,11 +125,11 @@
 
     <ImageView
         android:id="@+id/img_youtube"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:src="@drawable/ic_youtube_24"
+        android:src="@drawable/ic_youtube"
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator

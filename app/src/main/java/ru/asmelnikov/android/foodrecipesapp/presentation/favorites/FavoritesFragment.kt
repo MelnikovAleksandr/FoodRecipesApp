@@ -42,6 +42,8 @@ class FavoritesFragment : Fragment() {
 
         viewModel = (activity as MainActivity).viewModel
 
+        showLoading()
+
         observeFavorites()
 
         initAdapter()
@@ -81,7 +83,18 @@ class FavoritesFragment : Fragment() {
     private fun observeFavorites() {
         viewModel.observeFavoritesLiveData().observe(viewLifecycleOwner) { meals ->
             favoriteAdapter.differ.submitList(meals)
+            stopLoading()
         }
+    }
+
+    private fun showLoading() {
+        binding?.recyclerFavorites?.visibility = View.INVISIBLE
+        binding?.loadingGif?.visibility = View.VISIBLE
+    }
+
+    private fun stopLoading() {
+        binding?.recyclerFavorites?.visibility = View.VISIBLE
+        binding?.loadingGif?.visibility = View.INVISIBLE
     }
 
     override fun onDestroyView() {
