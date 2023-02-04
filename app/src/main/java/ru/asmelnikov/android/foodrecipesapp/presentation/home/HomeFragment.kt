@@ -64,7 +64,9 @@ class HomeFragment : Fragment() {
             val mealBottomFragment = MealBottomFragment.newInstance(it.idMeal)
             mealBottomFragment.show(childFragmentManager, "Meal info")
         }
-
+        binding?.imgSearch?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
     }
 
     private fun observePopularMeal() {

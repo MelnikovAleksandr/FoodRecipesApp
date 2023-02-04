@@ -1,22 +1,18 @@
 package ru.asmelnikov.android.foodrecipesapp.presentation.favorites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import ru.asmelnikov.android.foodrecipesapp.R
-import ru.asmelnikov.android.foodrecipesapp.adapters.CategoriesAdapter
 import ru.asmelnikov.android.foodrecipesapp.adapters.FavoritesAdapter
-import ru.asmelnikov.android.foodrecipesapp.adapters.PopularMealsAdapter
 import ru.asmelnikov.android.foodrecipesapp.databinding.FragmentFavoritesBinding
 import ru.asmelnikov.android.foodrecipesapp.presentation.MainActivity
 import ru.asmelnikov.android.foodrecipesapp.presentation.home.HomeViewModel
