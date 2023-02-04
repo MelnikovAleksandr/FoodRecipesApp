@@ -17,7 +17,11 @@
         android:id="@+id/categoriesFragment"
         android:name="ru.asmelnikov.android.foodrecipesapp.presentation.categories.CategoriesFragment"
         android:label="fragment_categories"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_categoriesFragment_to_categoryMealsFragment"
+            app:destination="@id/categoryMealsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="ru.asmelnikov.android.foodrecipesapp.presentation.home.HomeFragment"

@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.asmelnikov.android.foodrecipesapp.R
-import ru.asmelnikov.android.foodrecipesapp.adapters.CategoriesAdapter
 import ru.asmelnikov.android.foodrecipesapp.adapters.PopularMealsAdapter
 import ru.asmelnikov.android.foodrecipesapp.databinding.FragmentHomeBinding
 import ru.asmelnikov.android.foodrecipesapp.models.Meal
@@ -26,7 +24,6 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private lateinit var randomMeal: Meal
     private lateinit var popularAdapter: PopularMealsAdapter
-    private lateinit var categoriesAdapter: CategoriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,11 +45,10 @@ class HomeFragment : Fragment() {
         initAdapter()
         observePopularMeal()
         viewModel.getCategories()
-        observeCategoriesLiveData()
         binding?.recyclerPopularMeal?.addOnScrollListener(CarouselScroller())
         binding?.imgRandomMeal?.setOnClickListener {
             onClick?.let {
-                it(randomMeal.idMeal.toString())
+                it(randomMeal.idMeal)
             }
         }
         onRandomMealClick {
@@ -63,22 +59,8 @@ class HomeFragment : Fragment() {
             val bundle = bundleOf("meal_id" to it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
-        categoriesAdapter.setOnItemClickListener {
-            val bundle = bundleOf("category_name" to it)
-            findNavController().navigate(R.id.action_homeFragment_to_categoryMealsFragment, bundle)
-        }
 
     }
-
-    private fun observeCategoriesLiveData() {
-        viewModel.observeCategoriesLiveData()
-            .observe(viewLifecycleOwner) { categories ->
-                categoriesAdapter.differ
-                    .submitList(categories)
-                cancelLoadingCase()
-            }
-    }
-
 
     private fun observePopularMeal() {
         viewModel.observePopularLiveData()
@@ -87,6 +69,7 @@ class HomeFragment : Fragment() {
             ) { mealList ->
                 popularAdapter.differ
                     .submitList(mealList as ArrayList<MealsByCategory>)
+                cancelLoadingCase()
             }
     }
 
@@ -119,8 +102,6 @@ class HomeFragment : Fragment() {
             randomMealCard.visibility = View.INVISIBLE
             tvPopularMeal.visibility = View.INVISIBLE
             recyclerPopularMeal.visibility = View.INVISIBLE
-            tvCategories.visibility = View.INVISIBLE
-            recyclerCategories.visibility = View.INVISIBLE
             loadingGif.visibility = View.VISIBLE
         }
     }
@@ -133,8 +114,6 @@ class HomeFragment : Fragment() {
             randomMealCard.visibility = View.VISIBLE
             tvPopularMeal.visibility = View.VISIBLE
             recyclerPopularMeal.visibility = View.VISIBLE
-            tvCategories.visibility = View.VISIBLE
-            recyclerCategories.visibility = View.VISIBLE
             loadingGif.visibility = View.INVISIBLE
         }
     }
@@ -144,11 +123,6 @@ class HomeFragment : Fragment() {
         binding?.recyclerPopularMeal?.apply {
             adapter = popularAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        }
-        categoriesAdapter = CategoriesAdapter()
-        binding?.recyclerCategories?.apply {
-            adapter = categoriesAdapter
-            layoutManager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
         }
     }
 }
