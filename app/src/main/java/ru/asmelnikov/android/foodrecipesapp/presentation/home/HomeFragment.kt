@@ -14,6 +14,7 @@ import ru.asmelnikov.android.foodrecipesapp.databinding.FragmentHomeBinding
 import ru.asmelnikov.android.foodrecipesapp.models.Meal
 import ru.asmelnikov.android.foodrecipesapp.models.MealsByCategory
 import ru.asmelnikov.android.foodrecipesapp.presentation.MainActivity
+import ru.asmelnikov.android.foodrecipesapp.presentation.meal_bottom.MealBottomFragment
 import ru.asmelnikov.android.foodrecipesapp.utils.CarouselScroller
 import ru.asmelnikov.android.foodrecipesapp.utils.loadImage
 
@@ -58,6 +59,10 @@ class HomeFragment : Fragment() {
         popularAdapter.setOnItemClickListener {
             val bundle = bundleOf("meal_id" to it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
+        }
+        popularAdapter.setOnLongItemClickListener {
+            val mealBottomFragment = MealBottomFragment.newInstance(it.idMeal)
+            mealBottomFragment.show(childFragmentManager, "Meal info")
         }
 
     }
