@@ -63,7 +63,7 @@ class DetailsFragment : Fragment() {
         binding?.btnFavoritesAdd?.setOnClickListener {
             meal.let {
                 viewModel.insertMeal(it)
-                Toast.makeText(requireContext(), "Meal saved!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), R.string.meal_saved, Toast.LENGTH_LONG).show()
             }
         }
         onYouTubeImageClick(meal.strYoutube!!)
