@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,6 +74,18 @@ class HomeViewModel(
         })
     }
 
+    fun deleteMeal(meal: Meal) {
+        viewModelScope.launch {
+            mealDatabase.mealDao().deleteMeal(meal)
+        }
+    }
+
+    fun insertMeal(meal: Meal) {
+        viewModelScope.launch {
+            mealDatabase.mealDao().upsertMeal(meal)
+        }
+    }
+
     fun observeRandomMealLiveData(): LiveData<Meal> {
         return randomMealLiveData
     }
@@ -83,6 +97,7 @@ class HomeViewModel(
     fun observeCategoriesLiveData(): LiveData<List<Category>> {
         return categoriesLiveData
     }
+
     fun observeFavoritesLiveData(): LiveData<List<Meal>> {
         return favoriteLiveData
     }
