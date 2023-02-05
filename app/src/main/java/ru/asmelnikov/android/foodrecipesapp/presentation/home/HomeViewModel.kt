@@ -40,7 +40,6 @@ class HomeViewModel(
                 override fun onFailure(call: Call<MealsByCategoryList>, t: Throwable) {
                     Log.d("HomeFragment", t.message.toString())
                 }
-
             })
     }
 
