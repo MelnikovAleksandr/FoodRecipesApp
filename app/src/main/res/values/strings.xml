@@ -13,7 +13,7 @@
     <string name="categories_meals">%1$s: %2$s</string>
     <string name="meal_saved">Meal saved!</string>
     <string name="meal_deleted">Meal deleted!</string>
-    <string name="undo">ONDO</string>
+    <string name="undo">UNDO</string>
     <string name="read_more">Read more…</string>
     <string name="search_meals">Search meals…</string>
     <!-- TODO: Remove or change this placeholder text -->
